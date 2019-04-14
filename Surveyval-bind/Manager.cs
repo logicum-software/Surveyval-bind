@@ -16,7 +16,7 @@ namespace Surveyval_bind
     public partial class Manager : Form
     {
         private AppData appData;
-        private BindingSource bindingSource1;
+        private BindingSource bindingSource_checkedListBox1, bindingSource_listBox1;
 
         public Manager()
         {
@@ -39,10 +39,16 @@ namespace Surveyval_bind
             }
 
             // Data Bindings
-            bindingSource1 = new BindingSource();
-            bindingSource1.DataSource = appData.appFragen;
+            bindingSource_listBox1 = new BindingSource();
+            bindingSource_listBox1.DataSource = appData.appFrageboegen;
 
-            ((ListBox)checkedListBox1).DataSource = bindingSource1;
+            bindingSource_checkedListBox1 = new BindingSource();
+            bindingSource_checkedListBox1.DataSource = appData.appFragen;
+
+            listBox1.DataSource = bindingSource_listBox1;
+            listBox1.DisplayMember = "strName";
+
+            ((ListBox)checkedListBox1).DataSource = bindingSource_checkedListBox1;
             ((ListBox)checkedListBox1).DisplayMember = "strFragetext";
         }
 
@@ -99,7 +105,7 @@ namespace Surveyval_bind
                     appData.appFragen.Add(new Frage(dlgNeueFrage.textBox1.Text, 0));
 
                 saveData();
-                bindingSource1.ResetBindings(false);
+                bindingSource_checkedListBox1.ResetBindings(false);
             }
         }
 
@@ -115,12 +121,7 @@ namespace Surveyval_bind
                 appData.appFrageboegen.Add(new Fragebogen(dlgNeuerFragebogen.textBox1.Text, new List<Frage>()));
                 saveData();
 
-                // TODO: Anpassen!
-                /*listView1.Clear();
-                foreach (Fragebogen item in appData.appFrageboegen)
-                    listView1.Items.Add(item.strName);
-
-                checkedListBox2.Refresh();*/
+                bindingSource_listBox1.ResetBindings(false);
             }
         }
 
