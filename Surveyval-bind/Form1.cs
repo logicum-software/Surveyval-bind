@@ -23,5 +23,10 @@ namespace Surveyval_bind
 
             dlgManager.ShowDialog();
         }
+
+        private void Button2_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }
