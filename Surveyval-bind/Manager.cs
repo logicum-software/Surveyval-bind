@@ -10,18 +10,11 @@ using System.Windows.Forms;
 
 namespace Surveyval_bind
 {
-    public partial class Form1 : Form
+    public partial class Manager : Form
     {
-        public Form1()
+        public Manager()
         {
             InitializeComponent();
-        }
-
-        private void Button1_Click(object sender, EventArgs e)
-        {
-            Manager dlgManager = new Manager();
-
-            dlgManager.ShowDialog();
         }
     }
 }
