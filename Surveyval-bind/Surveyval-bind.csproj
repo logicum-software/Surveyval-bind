@@ -67,6 +67,12 @@
     <Compile Include="NeueFrage.Designer.cs">
       <DependentUpon>NeueFrage.cs</DependentUpon>
     </Compile>
+    <Compile Include="NeuerFragebogen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NeuerFragebogen.Designer.cs">
+      <DependentUpon>NeuerFragebogen.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -77,6 +83,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="NeueFrage.resx">
       <DependentUpon>NeueFrage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NeuerFragebogen.resx">
+      <DependentUpon>NeuerFragebogen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

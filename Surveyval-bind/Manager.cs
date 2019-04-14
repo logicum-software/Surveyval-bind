@@ -76,9 +76,7 @@ namespace Surveyval_bind
         private void Button3_Click(object sender, EventArgs e)
         {
             NeueFrage dlgNeueFrage = new NeueFrage();
-            dlgNeueFrage.textBox1.Text = "Neue Frage eingeben...";
             dlgNeueFrage.textBox1.Focus();
-            dlgNeueFrage.button1.Enabled = false;
 
             dlgNeueFrage.ShowDialog();
             if (dlgNeueFrage.DialogResult == DialogResult.OK)
@@ -103,10 +101,37 @@ namespace Surveyval_bind
                 saveData();
                 bindingSource1.ResetBindings(false);
             }
-            else
-            {
+        }
 
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            NeuerFragebogen dlgNeuerFragebogen = new NeuerFragebogen();
+
+            dlgNeuerFragebogen.textBox1.Focus();
+
+            dlgNeuerFragebogen.ShowDialog();
+            if (dlgNeuerFragebogen.DialogResult == DialogResult.OK)
+            {
+                appData.appFrageboegen.Add(new Fragebogen(dlgNeuerFragebogen.textBox1.Text, new List<Frage>()));
+                saveData();
+
+                // TODO: Anpassen!
+                /*listView1.Clear();
+                foreach (Fragebogen item in appData.appFrageboegen)
+                    listView1.Items.Add(item.strName);
+
+                checkedListBox2.Refresh();*/
             }
+        }
+
+        private void Button4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Button2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
