@@ -46,6 +46,28 @@ namespace Surveyval_bind
             ((ListBox)checkedListBox1).DisplayMember = "strFragetext";
         }
 
+        private void saveData()
+        {
+            FileStream fs = new FileStream("udata.dat", FileMode.Create);
+
+            // Construct a BinaryFormatter and use it to serialize the data to the stream.
+            BinaryFormatter formatter = new BinaryFormatter();
+            try
+            {
+                formatter.Serialize(fs, appData);
+            }
+            catch (SerializationException ec)
+            {
+                MessageBox.Show(ec.Message, "Speicherfehler", MessageBoxButtons.OK);
+                //Console.WriteLine("Failed to serialize. Reason: " + ec.Message);
+                throw;
+            }
+            finally
+            {
+                fs.Close();
+            }
+        }
+
         private void Button5_Click(object sender, EventArgs e)
         {
             Close();
@@ -54,12 +76,37 @@ namespace Surveyval_bind
         private void Button3_Click(object sender, EventArgs e)
         {
             NeueFrage dlgNeueFrage = new NeueFrage();
-
-            dlgNeueFrage.textBox1.Text = "Bitte geben Sie einen Fragetext ein...";
+            dlgNeueFrage.textBox1.Text = "Neue Frage eingeben...";
             dlgNeueFrage.textBox1.Focus();
-            dlgNeueFrage.textBox1.SelectAll();
+            dlgNeueFrage.button1.Enabled = false;
 
             dlgNeueFrage.ShowDialog();
+            if (dlgNeueFrage.DialogResult == DialogResult.OK)
+            {
+                foreach (Frage item in appData.appFragen)
+                {
+                    if (String.Compare(item.strFragetext, dlgNeueFrage.textBox1.Text, true) > -1 &&
+                        String.Compare(item.strFragetext, dlgNeueFrage.textBox1.Text, true) < 1)
+                    {
+                        if (MessageBox.Show("Die eingegebene Frage: \n\n" + dlgNeueFrage.textBox1.Text +
+                            "\n\nscheint schon zu existieren.\n\nTrotzdem speichern?",
+                            "Frage bereits vorhanden", MessageBoxButtons.YesNo) == DialogResult.No)
+                            return;
+                    }
+                }
+
+                if (dlgNeueFrage.radioButton2.Checked)
+                    appData.appFragen.Add(new Frage(dlgNeueFrage.textBox1.Text, 1));
+                else
+                    appData.appFragen.Add(new Frage(dlgNeueFrage.textBox1.Text, 0));
+
+                saveData();
+                bindingSource1.ResetBindings(false);
+            }
+            else
+            {
+
+            }
         }
     }
 }

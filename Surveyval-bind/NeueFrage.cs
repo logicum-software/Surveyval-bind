@@ -22,5 +22,16 @@ namespace Surveyval_bind
             DialogResult = DialogResult.Abort;
             Close();
         }
+
+        private void TextBox1_TextChanged(object sender, EventArgs e)
+        {
+            button1.Enabled = true;
+        }
+
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.OK;
+            Close();
+        }
     }
 }
