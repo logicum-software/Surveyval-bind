@@ -155,11 +155,17 @@ namespace Surveyval_bind
             }
             else if (e.NewValue == CheckState.Unchecked)
             {
-                appData.appFrageboegen[listBox1.SelectedIndex].Fragen.Remove(appData.appFragen[e.Index]);
-                MessageBox.Show("Die Frage: \n\n" + appData.appFragen[e.Index].strFragetext + "\n\nwurde aus dem Fragebogen entfernt.,",
-                    "Frage entfernt", MessageBoxButtons.OK);
-                saveData();
-
+                foreach (Frage item in appData.appFrageboegen[listBox1.SelectedIndex].Fragen)
+                {
+                    if (item.strFragetext.Equals(appData.appFragen[e.Index].strFragetext))
+                    {
+                        appData.appFrageboegen[listBox1.SelectedIndex].Fragen.Remove(item);
+                        MessageBox.Show("Die Frage: \n\n" + appData.appFragen[e.Index].strFragetext + "\n\nwurde aus dem Fragebogen entfernt.,",
+                            "Frage entfernt", MessageBoxButtons.OK);
+                        saveData();
+                        return;
+                    }
+                }
             }
         }
 
