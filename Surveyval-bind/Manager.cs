@@ -130,6 +130,12 @@ namespace Surveyval_bind
 
         }
 
+        private void CheckedListBox1_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            if (e.NewValue == CheckState.Checked)
+                MessageBox.Show(appData.appFragen[e.Index].strFragetext, "Geklickt", MessageBoxButtons.OK);
+        }
+
         private void Button2_Click(object sender, EventArgs e)
         {
 
