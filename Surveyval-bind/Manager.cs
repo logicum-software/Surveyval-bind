@@ -50,6 +50,19 @@ namespace Surveyval_bind
 
             ((ListBox)checkedListBox1).DataSource = bindingSource_checkedListBox1;
             ((ListBox)checkedListBox1).DisplayMember = "strFragetext";
+
+            updateCheckboxes();
+        }
+
+        private void updateCheckboxes()
+        {
+            for (int i = 0; i < checkedListBox1.Items.Count; i++)
+            {
+                if (appData.appFrageboegen[listBox1.SelectedIndex].isContaining(appData.appFragen[i].strFragetext))
+                    checkedListBox1.SetItemChecked(i, true);
+                else
+                    checkedListBox1.SetItemChecked(i, false);
+            }
         }
 
         private void saveData()
@@ -133,7 +146,21 @@ namespace Surveyval_bind
         private void CheckedListBox1_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             if (e.NewValue == CheckState.Checked)
-                MessageBox.Show(appData.appFragen[e.Index].strFragetext, "Geklickt", MessageBoxButtons.OK);
+            {
+                appData.appFrageboegen[listBox1.SelectedIndex].Fragen.Add(appData.appFragen[e.Index]);
+                MessageBox.Show("Die Frage: \n\n" + appData.appFragen[e.Index].strFragetext + "\n\nwurde dem Fragebogen "
+                    + appData.appFrageboegen[listBox1.SelectedIndex].strName + " hinzugefügt.,",
+                    "Frage hinzugefügt", MessageBoxButtons.OK);
+                saveData();
+            }
+            else if (e.NewValue == CheckState.Unchecked)
+            {
+                appData.appFrageboegen[listBox1.SelectedIndex].Fragen.Remove(appData.appFragen[e.Index]);
+                MessageBox.Show("Die Frage: \n\n" + appData.appFragen[e.Index].strFragetext + "\n\nwurde aus dem Fragebogen entfernt.,",
+                    "Frage entfernt", MessageBoxButtons.OK);
+                saveData();
+
+            }
         }
 
         private void Button2_Click(object sender, EventArgs e)
