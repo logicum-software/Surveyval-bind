@@ -143,9 +143,26 @@ namespace Surveyval_bind
 
         private void ListBox3_DoubleClick(object sender, EventArgs e)
         {
+            if (appData.appFrageboegen[listBox1.SelectedIndex].isContaining(appData.appFragen[listBox3.SelectedIndex]))
+            {
+                MessageBox.Show("Die ausgewählte Frage ist im Fragebogen schon vorhanden.", "Frage vorhanden",
+                    MessageBoxButtons.OK);
+                return;
+            }
             appData.appFrageboegen[listBox1.SelectedIndex].Fragen.Add(appData.appFragen[listBox3.SelectedIndex]);
             saveData();
             bindingSource_listBox2.ResetBindings(false);
+            MessageBox.Show("Die ausgewählte Frage wurde dem Fragebogen hinzugefügt.", "Frage hinzugefügt",
+                MessageBoxButtons.OK);
+        }
+
+        private void ListBox2_DoubleClick(object sender, EventArgs e)
+        {
+            appData.appFrageboegen[listBox1.SelectedIndex].Fragen.Remove(appData.appFrageboegen[listBox1.SelectedIndex].Fragen[listBox2.SelectedIndex]);
+            saveData();
+            bindingSource_listBox2.ResetBindings(false);
+            MessageBox.Show("Die ausgewählte Frage wurde aus dem Fragebogen entfernt.", "Frage entfernt",
+                MessageBoxButtons.OK);
         }
 
         private void Button4_Click(object sender, EventArgs e)
