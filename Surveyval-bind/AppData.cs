@@ -38,7 +38,10 @@ namespace Surveyval_bind
             foreach (Fragebogen item in appFrageboegen)
             {
                 if (item.strName.Equals(tmp.strName))
+                {
                     appFrageboegen.Remove(item);
+                    return;
+                }
             }
         }
     }

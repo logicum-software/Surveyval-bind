@@ -60,7 +60,10 @@ namespace Surveyval_bind
             foreach (Frage item in Fragen)
             {
                 if (item.strFragetext.Equals(text))
+                {
                     Fragen.Remove(item);
+                    return;
+                }
             }
         }
     }

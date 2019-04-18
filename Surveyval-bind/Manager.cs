@@ -16,7 +16,7 @@ namespace Surveyval_bind
     public partial class Manager : Form
     {
         private AppData appData;
-        private BindingSource bindingSource_checkedListBox1, bindingSource_listBox1;
+        private BindingSource bindingSource_listBox1, bindingSource_listBox2, bindingSource_listBox3;
 
         public Manager()
         {
@@ -42,27 +42,23 @@ namespace Surveyval_bind
             bindingSource_listBox1 = new BindingSource();
             bindingSource_listBox1.DataSource = appData.appFrageboegen;
 
-            bindingSource_checkedListBox1 = new BindingSource();
-            bindingSource_checkedListBox1.DataSource = appData.appFragen;
+            bindingSource_listBox2 = new BindingSource();
+            MessageBox.Show("Anzahl Frageboegen: " + appData.appFrageboegen.Count, "Count", MessageBoxButtons.OK);
+            if (appData.appFrageboegen.Count > 0)
+            {
+                bindingSource_listBox2.DataSource = appData.appFrageboegen[0].Fragen;
+                listBox2.DataSource = bindingSource_listBox2;
+                listBox2.DisplayMember = "strFragetext";
+            }
+
+            bindingSource_listBox3 = new BindingSource();
+            bindingSource_listBox3.DataSource = appData.appFragen;
 
             listBox1.DataSource = bindingSource_listBox1;
             listBox1.DisplayMember = "strName";
 
-            ((ListBox)checkedListBox1).DataSource = bindingSource_checkedListBox1;
-            ((ListBox)checkedListBox1).DisplayMember = "strFragetext";
-
-            updateCheckboxes();
-        }
-
-        private void updateCheckboxes()
-        {
-            for (int i = 0; i < checkedListBox1.Items.Count; i++)
-            {
-                if (appData.appFrageboegen[listBox1.SelectedIndex].isContaining(appData.appFragen[i].strFragetext))
-                    checkedListBox1.SetItemChecked(i, true);
-                else
-                    checkedListBox1.SetItemChecked(i, false);
-            }
+            listBox3.DataSource = bindingSource_listBox3;
+            listBox3.DisplayMember = "strFragetext";
         }
 
         private void saveData()
@@ -89,7 +85,7 @@ namespace Surveyval_bind
 
         private void Button5_Click(object sender, EventArgs e)
         {
-            Close();
+            this.Close();
         }
 
         private void Button3_Click(object sender, EventArgs e)
@@ -118,7 +114,7 @@ namespace Surveyval_bind
                     appData.appFragen.Add(new Frage(dlgNeueFrage.textBox1.Text, 0));
 
                 saveData();
-                bindingSource_checkedListBox1.ResetBindings(false);
+                bindingSource_listBox3.ResetBindings(false);
             }
         }
 
@@ -138,12 +134,26 @@ namespace Surveyval_bind
             }
         }
 
+        private void ListBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            bindingSource_listBox2.DataSource = appData.appFrageboegen[listBox1.SelectedIndex].Fragen;
+            listBox2.DisplayMember = "strFragetext";
+            bindingSource_listBox2.ResetBindings(false);
+        }
+
+        private void ListBox3_DoubleClick(object sender, EventArgs e)
+        {
+            appData.appFrageboegen[listBox1.SelectedIndex].Fragen.Add(appData.appFragen[listBox3.SelectedIndex]);
+            saveData();
+            bindingSource_listBox2.ResetBindings(false);
+        }
+
         private void Button4_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void CheckedListBox1_ItemCheck(object sender, ItemCheckEventArgs e)
+        /*private void CheckedListBox1_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             if (e.NewValue == CheckState.Checked)
             {
@@ -155,19 +165,31 @@ namespace Surveyval_bind
             }
             else if (e.NewValue == CheckState.Unchecked)
             {
+                appData.appFrageboegen[listBox1.SelectedIndex].Fragen.Remove(appData.appFragen[e.Index]);
+                saveData();
+                MessageBox.Show("appData.appFrageboegen[listBox1.SelectedIndex].Fragen.Count() = " 
+                    + appData.appFrageboegen[listBox1.SelectedIndex].Fragen.Count,
+                    "Anzahl", MessageBoxButtons.OK);
                 foreach (Frage item in appData.appFrageboegen[listBox1.SelectedIndex].Fragen)
                 {
                     if (item.strFragetext.Equals(appData.appFragen[e.Index].strFragetext))
                     {
-                        appData.appFrageboegen[listBox1.SelectedIndex].Fragen.Remove(item);
-                        MessageBox.Show("Die Frage: \n\n" + appData.appFragen[e.Index].strFragetext + "\n\nwurde aus dem Fragebogen entfernt.,",
-                            "Frage entfernt", MessageBoxButtons.OK);
-                        saveData();
+                        if (appData.appFrageboegen[listBox1.SelectedIndex].Fragen.Remove(item))
+                        {
+                            MessageBox.Show("Die Frage: \n\n" + appData.appFragen[e.Index].strFragetext + "\n\nwurde aus dem Fragebogen entfernt.,",
+                                "Frage entfernt", MessageBoxButtons.OK);
+                            saveData();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Die Frage: \n\n" + appData.appFragen[e.Index].strFragetext + "\n\nkonnte nicht aus dem Fragebogen entfernt werden.,",
+                                "Fehler", MessageBoxButtons.OK);
+                        }
                         return;
                     }
                 }
             }
-        }
+        }*/
 
         private void Button2_Click(object sender, EventArgs e)
         {
