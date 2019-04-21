@@ -42,14 +42,14 @@ namespace Surveyval_bind
             bindingSource_listBox1 = new BindingSource();
             bindingSource_listBox1.DataSource = appData.appFrageboegen;
 
-            bindingSource_listBox2 = new BindingSource();
+            /*bindingSource_listBox2 = new BindingSource();
             MessageBox.Show("Anzahl Frageboegen: " + appData.appFrageboegen.Count, "Count", MessageBoxButtons.OK);
             if (appData.appFrageboegen.Count > 0)
             {
                 bindingSource_listBox2.DataSource = appData.appFrageboegen[0].Fragen;
                 listBox2.DataSource = bindingSource_listBox2;
                 listBox2.DisplayMember = "strFragetext";
-            }
+            }*/
 
             bindingSource_listBox3 = new BindingSource();
             bindingSource_listBox3.DataSource = appData.appFragen;
@@ -57,8 +57,8 @@ namespace Surveyval_bind
             listBox1.DataSource = bindingSource_listBox1;
             listBox1.DisplayMember = "strName";
 
-            listBox3.DataSource = bindingSource_listBox3;
-            listBox3.DisplayMember = "strFragetext";
+            /*listBox3.DataSource = bindingSource_listBox3;
+            listBox3.DisplayMember = "strFragetext";*/
         }
 
         private void saveData()
@@ -137,19 +137,19 @@ namespace Surveyval_bind
         private void ListBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             bindingSource_listBox2.DataSource = appData.appFrageboegen[listBox1.SelectedIndex].Fragen;
-            listBox2.DisplayMember = "strFragetext";
+            //listBox2.DisplayMember = "strFragetext";
             bindingSource_listBox2.ResetBindings(false);
         }
 
         private void ListBox3_DoubleClick(object sender, EventArgs e)
         {
-            if (appData.appFrageboegen[listBox1.SelectedIndex].isContaining(appData.appFragen[listBox3.SelectedIndex]))
+            /*if (appData.appFrageboegen[listBox1.SelectedIndex].isContaining(appData.appFragen[listBox3.SelectedIndex]))
             {
                 MessageBox.Show("Die ausgewählte Frage ist im Fragebogen schon vorhanden.", "Frage vorhanden",
                     MessageBoxButtons.OK);
                 return;
-            }
-            appData.appFrageboegen[listBox1.SelectedIndex].Fragen.Add(appData.appFragen[listBox3.SelectedIndex]);
+            }*/
+            //appData.appFrageboegen[listBox1.SelectedIndex].Fragen.Add(appData.appFragen[listBox3.SelectedIndex]);
             saveData();
             bindingSource_listBox2.ResetBindings(false);
             MessageBox.Show("Die ausgewählte Frage wurde dem Fragebogen hinzugefügt.", "Frage hinzugefügt",
@@ -158,7 +158,7 @@ namespace Surveyval_bind
 
         private void ListBox2_DoubleClick(object sender, EventArgs e)
         {
-            appData.appFrageboegen[listBox1.SelectedIndex].Fragen.Remove(appData.appFrageboegen[listBox1.SelectedIndex].Fragen[listBox2.SelectedIndex]);
+            //appData.appFrageboegen[listBox1.SelectedIndex].Fragen.Remove(appData.appFrageboegen[listBox1.SelectedIndex].Fragen[listBox2.SelectedIndex]);
             saveData();
             bindingSource_listBox2.ResetBindings(false);
             MessageBox.Show("Die ausgewählte Frage wurde aus dem Fragebogen entfernt.", "Frage entfernt",
