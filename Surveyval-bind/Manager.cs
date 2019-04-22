@@ -16,7 +16,7 @@ namespace Surveyval_bind
     public partial class Manager : Form
     {
         private AppData appData;
-        private BindingSource bindingSource_listBox1, bindingSource_listBox2, bindingSource_listBox3;
+        private BindingSource bindingSource_listBox1, bindingSource_checkedListBox1;
 
         public Manager()
         {
@@ -42,23 +42,30 @@ namespace Surveyval_bind
             bindingSource_listBox1 = new BindingSource();
             bindingSource_listBox1.DataSource = appData.appFrageboegen;
 
-            /*bindingSource_listBox2 = new BindingSource();
-            MessageBox.Show("Anzahl Frageboegen: " + appData.appFrageboegen.Count, "Count", MessageBoxButtons.OK);
-            if (appData.appFrageboegen.Count > 0)
-            {
-                bindingSource_listBox2.DataSource = appData.appFrageboegen[0].Fragen;
-                listBox2.DataSource = bindingSource_listBox2;
-                listBox2.DisplayMember = "strFragetext";
-            }*/
-
-            bindingSource_listBox3 = new BindingSource();
-            bindingSource_listBox3.DataSource = appData.appFragen;
-
             listBox1.DataSource = bindingSource_listBox1;
             listBox1.DisplayMember = "strName";
 
-            /*listBox3.DataSource = bindingSource_listBox3;
-            listBox3.DisplayMember = "strFragetext";*/
+            bindingSource_checkedListBox1 = new BindingSource();
+            bindingSource_checkedListBox1.DataSource = appData.appFragen;
+
+            ((ListBox)checkedListBox1).DataSource = bindingSource_checkedListBox1;
+            ((ListBox)checkedListBox1).DisplayMember = "strFragetext";
+
+            checkedListBox1.SetItemChecked(0, true);
+        }
+
+        private void refreshViews()
+        {
+            bindingSource_listBox1.ResetBindings(false);
+            bindingSource_checkedListBox1.ResetBindings(false);
+
+            foreach (Frage item in appData.appFrageboegen[listBox1.SelectedIndex].Fragen)
+            {
+                foreach (String item2 in checkedListBox1.Items)
+                {
+
+                }
+            }
         }
 
         private void saveData()
@@ -114,7 +121,7 @@ namespace Surveyval_bind
                     appData.appFragen.Add(new Frage(dlgNeueFrage.textBox1.Text, 0));
 
                 saveData();
-                bindingSource_listBox3.ResetBindings(false);
+                //bindingSource_listBox3.ResetBindings(false);
             }
         }
 
@@ -136,9 +143,9 @@ namespace Surveyval_bind
 
         private void ListBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            bindingSource_listBox2.DataSource = appData.appFrageboegen[listBox1.SelectedIndex].Fragen;
-            //listBox2.DisplayMember = "strFragetext";
-            bindingSource_listBox2.ResetBindings(false);
+            /*bindingSource_listBox2.DataSource = appData.appFrageboegen[listBox1.SelectedIndex].Fragen;
+            listBox2.DisplayMember = "strFragetext";
+            //bindingSource_listBox2.ResetBindings(false);*/
         }
 
         private void ListBox3_DoubleClick(object sender, EventArgs e)
@@ -151,7 +158,7 @@ namespace Surveyval_bind
             }*/
             //appData.appFrageboegen[listBox1.SelectedIndex].Fragen.Add(appData.appFragen[listBox3.SelectedIndex]);
             saveData();
-            bindingSource_listBox2.ResetBindings(false);
+            //bindingSource_listBox2.ResetBindings(false);
             MessageBox.Show("Die ausgewählte Frage wurde dem Fragebogen hinzugefügt.", "Frage hinzugefügt",
                 MessageBoxButtons.OK);
         }
@@ -160,7 +167,7 @@ namespace Surveyval_bind
         {
             //appData.appFrageboegen[listBox1.SelectedIndex].Fragen.Remove(appData.appFrageboegen[listBox1.SelectedIndex].Fragen[listBox2.SelectedIndex]);
             saveData();
-            bindingSource_listBox2.ResetBindings(false);
+            //bindingSource_listBox2.ResetBindings(false);
             MessageBox.Show("Die ausgewählte Frage wurde aus dem Fragebogen entfernt.", "Frage entfernt",
                 MessageBoxButtons.OK);
         }
