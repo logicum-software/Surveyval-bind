@@ -51,7 +51,10 @@ namespace Surveyval_bind
             ((ListBox)checkedListBox1).DataSource = bindingSource_checkedListBox1;
             ((ListBox)checkedListBox1).DisplayMember = "strFragetext";
 
-            checkedListBox1.SetItemChecked(0, true);
+            if (listBox1.Items.Count > 0)
+                listBox1.SetSelected(0, true);
+
+            refreshViews();
         }
 
         private void refreshViews()
@@ -59,11 +62,12 @@ namespace Surveyval_bind
             bindingSource_listBox1.ResetBindings(false);
             bindingSource_checkedListBox1.ResetBindings(false);
 
-            foreach (Frage item in appData.appFrageboegen[listBox1.SelectedIndex].Fragen)
+            for (int i = 0; i < checkedListBox1.Items.Count; i++)
             {
-                foreach (String item2 in checkedListBox1.Items)
+                //MessageBox.Show(checkedListBox1.GetItemText(checkedListBox1.Items[i]), "checkedListBox1.GetItemText(i)", MessageBoxButtons.OK);
+                if (appData.appFrageboegen[listBox1.SelectedIndex].isContaining(checkedListBox1.GetItemText(checkedListBox1.Items[i])))
                 {
-
+                    checkedListBox1.SetItemChecked(i, true);
                 }
             }
         }
@@ -177,7 +181,7 @@ namespace Surveyval_bind
 
         }
 
-        /*private void CheckedListBox1_ItemCheck(object sender, ItemCheckEventArgs e)
+        private void CheckedListBox1_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             if (e.NewValue == CheckState.Checked)
             {
@@ -213,7 +217,7 @@ namespace Surveyval_bind
                     }
                 }
             }
-        }*/
+        }
 
         private void Button2_Click(object sender, EventArgs e)
         {
